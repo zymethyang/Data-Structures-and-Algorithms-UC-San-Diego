@@ -12,7 +12,7 @@ public class PhoneBook {
     private FastScanner in = new FastScanner();
     // Keep list of all existing (i.e. not deleted yet) contacts.
     private List<Contact> contacts = new ArrayList<>();
-
+    private Contact[] contactsDA = new Contact[10000000];
     public static void main(String[] args) {
         new PhoneBook().processQueries();
     }
@@ -37,7 +37,8 @@ public class PhoneBook {
         if (query.type.equals("add")) {
             // if we already have contact with such number,
             // we should rewrite contact's name
-            boolean wasFound = false;
+            /*
+        	boolean wasFound = false;
             for (Contact contact : contacts)
                 if (contact.number == query.number) {
                     contact.name = query.name;
@@ -46,20 +47,27 @@ public class PhoneBook {
                 }
             // otherwise, just add it
             if (!wasFound)
-                contacts.add(new Contact(query.name, query.number));
+                contacts.add(new Contact(query.name, query.number));*/
+        	contactsDA[query.number] = new Contact(query.name,query.number);
         } else if (query.type.equals("del")) {
+        	/*
             for (Iterator<Contact> it = contacts.iterator(); it.hasNext(); )
                 if (it.next().number == query.number) {
                     it.remove();
                     break;
                 }
+                */
+        	contactsDA[query.number] = null;
         } else {
+        	Contact contact = contactsDA[query.number];
             String response = "not found";
+            /*
             for (Contact contact: contacts)
                 if (contact.number == query.number) {
                     response = contact.name;
                     break;
-                }
+                }*/
+            if(contact!=null) response = contact.name;
             writeResponse(response);
         }
     }
